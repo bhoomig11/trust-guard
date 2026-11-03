@@ -215,3 +215,43 @@ def test_extract_citations_page_variants() -> None:
     assert extract_citations("[a.pdf, page 3]", retrieved)[0].page == 3
     assert extract_citations("[a.pdf, p3]", retrieved)[0].page == 3
     assert extract_citations("no refs", []) == []
+
+
+def test_prefetch_answers_in_one_call(store, shield, audit, sample_txt) -> None:
+    ingest_files([sample_txt], store)
+    client = ScriptedClient(
+        [make_message([text("The international wire fee is $45 [wire_policy.txt, p. 2].")])]
+    )
+    result = build_agent(client, store, shield, audit).answer("What is the international wire fee?")
+
+    assert len(client.calls) == 1
+    first_user = client.calls[0]["messages"][0]["content"]
+    assert first_user.startswith("<retrieved_context>")
+    assert first_user.endswith("Question: What is the international wire fee?")
+    assert result.tools_used == []
+    assert [(c.source, c.page) for c in result.citations] == [("wire_policy.txt", 2)]
+    record = audit.tail(1)[0]
+    assert record["tool_calls"][0]["prefetch"] is True
+    assert record["retrieved_chunks"]
+
+
+def test_prefetch_context_is_not_cited_when_unused(store, shield, audit, sample_txt) -> None:
+    ingest_files([sample_txt], store)
+    client = ScriptedClient(
+        [
+            make_message(
+                [tool_use(MATH_CALCULATOR, {"expression": "0.03 * 4250"})], stop_reason="tool_use"
+            ),
+            make_message([text("3% of $4,250 is $127.50.")]),
+        ]
+    )
+    result = build_agent(client, store, shield, audit).answer("What is 3% of the $4,250 wire?")
+    assert result.tools_used == [MATH_CALCULATOR]
+    assert result.citations == []
+
+
+def test_prefetch_can_be_disabled(store, shield, audit, sample_txt) -> None:
+    ingest_files([sample_txt], store)
+    client = ScriptedClient([make_message([text("ok")])])
+    build_agent(client, store, shield, audit, prefetch=False).answer("What is the wire fee?")
+    assert client.calls[0]["messages"][0]["content"] == "What is the wire fee?"

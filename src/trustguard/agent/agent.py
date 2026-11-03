@@ -10,7 +10,12 @@ from typing import Any
 import anthropic
 
 from trustguard.agent.prompts import SYSTEM_PROMPT
-from trustguard.agent.tools import TOOL_DEFINITIONS, ToolExecutor, ToolResult
+from trustguard.agent.tools import (
+    POLICY_RETRIEVER,
+    TOOL_DEFINITIONS,
+    ToolExecutor,
+    ToolResult,
+)
 from trustguard.governance.logger import AuditRecord, GovernanceLogger
 from trustguard.privacy.shield import PLACEHOLDERS, PrivacyShield
 from trustguard.vectorstore import RetrievedChunk
@@ -82,8 +87,12 @@ def _serialize_messages(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return serialized
 
 
-def extract_citations(answer: str, retrieved: list[RetrievedChunk]) -> list[Citation]:
-    """Build citations from the answer text, falling back to the retrieved chunks.
+def extract_citations(
+    answer: str,
+    retrieved: list[RetrievedChunk],
+    fallback: list[RetrievedChunk] | None = None,
+) -> list[Citation]:
+    """Build citations from the answer text, falling back to retrieved chunks.
 
     Inline references like ``[aml_kyc_policy.pdf, p. 2]`` are kept only when
     they match a chunk that was actually retrieved, so the model cannot cite a
@@ -91,7 +100,11 @@ def extract_citations(answer: str, retrieved: list[RetrievedChunk]) -> list[Cita
 
     Args:
         answer: Final model answer.
-        retrieved: Every chunk the retriever returned during the run.
+        retrieved: Every chunk the model saw during the run.
+        fallback: Chunks to cite when the answer has no valid inline reference.
+            Defaults to `retrieved`. The agent passes only the chunks from
+            explicit retriever calls, so an answer that ignored the pre-fetched
+            context (for example pure arithmetic) gets no citations.
 
     Returns:
         Unique citations, best score first.
@@ -106,7 +119,11 @@ def extract_citations(answer: str, retrieved: list[RetrievedChunk]) -> list[Cita
         for m in _CITATION_PATTERN.finditer(answer)
         if (m.group(1).strip(), int(m.group(2))) in best
     }
-    keys = cited or set(best)
+    if cited:
+        keys = cited
+    else:
+        pool = retrieved if fallback is None else fallback
+        keys = {(c.source, c.page) for c in pool}
     citations = [Citation(source=s, page=p, score=best[(s, p)]) for s, p in keys]
     return sorted(citations, key=lambda c: (-c.score, c.source, c.page))
 
@@ -125,6 +142,7 @@ class ComplianceAgent:
         thinking: str = "adaptive",
         max_tokens: int = 4096,
         max_steps: int = 4,
+        prefetch: bool = True,
     ) -> None:
         """Wire the agent's dependencies.
 
@@ -139,6 +157,10 @@ class ComplianceAgent:
                 only accepted at effort ``high`` or below on Claude Haiku 5.5).
             max_tokens: Per-response output cap.
             max_steps: Maximum model calls that may request tools before a final answer is forced.
+            prefetch: Retrieve passages for the masked query before the first model call
+                and include them in the prompt. Most policy questions can then be
+                answered in one call instead of two; the model can still call
+                either tool.
         """
         self.client = client
         self.executor = executor
@@ -149,6 +171,7 @@ class ComplianceAgent:
         self.max_tokens = max_tokens
         self.max_steps = max_steps
         self.thinking = thinking
+        self.prefetch = prefetch
         self._system = [
             {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
         ]
@@ -203,10 +226,22 @@ class ComplianceAgent:
         masked = self.shield.mask(query)
         masking_ms = (time.perf_counter() - start) * 1000
 
-        messages: list[dict[str, Any]] = [{"role": "user", "content": masked.masked_text}]
         tool_results: list[ToolResult] = []
         llm_ms = 0.0
         tool_ms = 0.0
+        user_content = masked.masked_text
+        if self.prefetch:
+            t_pre = time.perf_counter()
+            prefetched = self.executor.run(POLICY_RETRIEVER, {"query": masked.masked_text})
+            tool_ms += (time.perf_counter() - t_pre) * 1000
+            prefetched.prefetch = True
+            tool_results.append(prefetched)
+            if prefetched.chunks:
+                user_content = (
+                    f"<retrieved_context>\n{prefetched.output}\n</retrieved_context>\n\n"
+                    f"Question: {masked.masked_text}"
+                )
+        messages: list[dict[str, Any]] = [{"role": "user", "content": user_content}]
         usage = {"input_tokens": 0, "output_tokens": 0, "cache_read_input_tokens": 0}
         response: Any = None
         error: str | None = None
@@ -273,7 +308,12 @@ class ComplianceAgent:
                 pii_entities=[e.to_dict() for e in masked.entities],
                 retrieved_chunks=[c.to_dict() for c in retrieved],
                 tool_calls=[
-                    {"tool": r.tool, "input": r.tool_input, "is_error": r.is_error}
+                    {
+                        "tool": r.tool,
+                        "input": r.tool_input,
+                        "is_error": r.is_error,
+                        "prefetch": r.prefetch,
+                    }
                     for r in tool_results
                 ],
                 llm_prompt={
@@ -293,10 +333,14 @@ class ComplianceAgent:
 
         return AgentAnswer(
             answer=answer_text,
-            citations=extract_citations(answer_text, retrieved),
+            citations=extract_citations(
+                answer_text,
+                retrieved,
+                fallback=[c for r in tool_results if not r.prefetch for c in r.chunks],
+            ),
             masked_query=masked.masked_text,
             pii_detected=sorted({PLACEHOLDERS[e.entity_type].strip("[]") for e in masked.entities}),
-            tools_used=[r.tool for r in tool_results],
+            tools_used=[r.tool for r in tool_results if not r.prefetch],
             latency_ms=latency,
             request_id=record.request_id,
             model=record.model,

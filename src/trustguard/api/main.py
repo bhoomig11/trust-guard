@@ -66,6 +66,7 @@ def build_services(settings: Settings) -> Services:
             thinking=settings.llm_thinking,
             max_tokens=settings.llm_max_tokens,
             max_steps=settings.agent_max_steps,
+            prefetch=settings.prefetch_context,
         )
     else:
         logger.warning("ANTHROPIC_API_KEY is not set; /query will return 503")

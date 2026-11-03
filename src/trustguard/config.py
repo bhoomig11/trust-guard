@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     llm_thinking: str = "adaptive"
     llm_max_tokens: int = 4096
     agent_max_steps: int = 4
+    prefetch_context: bool = True
 
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     spacy_model: str = "en_core_web_md"

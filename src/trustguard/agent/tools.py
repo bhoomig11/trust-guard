@@ -165,6 +165,7 @@ class ToolResult:
     output: str
     is_error: bool = False
     chunks: list[RetrievedChunk] = field(default_factory=list)
+    prefetch: bool = False
 
 
 class ToolExecutor:
