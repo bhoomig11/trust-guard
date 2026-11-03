@@ -1,0 +1,39 @@
+Cobalt Ridge Financial (fictional institution for demonstration purposes)
+
+CUSTOMER DATA PRIVACY AND PROTECTION POLICY
+Policy ID: CRF-SEC-120. Version 5.3. Owner: Chief Privacy Officer. Effective: January 1, 2026.
+
+
+1. Data Classification
+1.1 Restricted data includes Social Security numbers, full account and card numbers, authentication credentials, and biometric data.
+1.2 Confidential data includes customer names combined with balances, transaction history, and contact details.
+1.3 Internal data includes policies, procedures and non-customer operational reports.
+
+
+2. Handling Requirements
+2.1 Restricted data must be encrypted at rest using AES-256 and in transit using TLS 1.2 or higher.
+2.2 Only the last 4 digits of an account or card number may be displayed in customer correspondence, screens shared with customers, and internal reports.
+2.3 Restricted data must never be entered into external tools, including public generative AI services. Approved internal AI tools must mask personal data before any model inference.
+2.4 Restricted data may not be sent by email unless the message is encrypted.
+Cobalt Ridge Financial (fictional institution for demonstration purposes)
+
+
+3. Access Control
+3.1 Access to restricted data follows least privilege and requires manager approval.
+3.2 User access to systems holding restricted data is recertified every quarter.
+3.3 Privileged access sessions are logged and the logs are retained for 1 year.
+
+
+4. Retention and Disposal
+4.1 Account records are retained for 7 years after the account is closed, unless a longer period is required by law or a legal hold.
+4.2 Paper records containing restricted data must be shredded. Electronic media must be securely wiped or physically destroyed.
+
+
+5. Incident Response and Breach Notification
+5.1 Employees must report any suspected data incident to the Security Operations Center within 1 hour of discovery.
+5.2 The Chief Privacy Officer determines whether notification is required. Where required, affected customers are notified without unreasonable delay and no later than 30 days after the breach is confirmed.
+5.3 The primary federal regulator is notified within 36 hours of determining that a notification incident has occurred.
+
+
+6. Customer Rights
+Customers may opt out of sharing their information with non-affiliated third parties for marketing at any time. Opt-out requests are processed within 30 days.

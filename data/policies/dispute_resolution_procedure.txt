@@ -1,0 +1,38 @@
+Cobalt Ridge Financial (fictional institution for demonstration purposes)
+
+CARD AND ELECTRONIC TRANSFER DISPUTE RESOLUTION PROCEDURE
+Procedure ID: CRF-OPS-415. Version 3.1. Owner: Disputes Operations. Effective: April 1, 2026.
+
+
+1. Scope
+This procedure covers disputes of unauthorized or incorrect electronic fund transfers on consumer accounts, including debit card, ATM, ACH and online transfers, and billing errors on consumer credit cards.
+
+
+2. Customer Notice Deadlines
+2.1 Customers must report an error on an electronic fund transfer within 60 calendar days after the statement on which the error first appeared was sent.
+2.2 Credit card billing errors must be reported in writing within 60 days after the statement containing the error was sent.
+
+
+3. Consumer Liability for Unauthorized Debit Transfers
+3.1 If the customer reports a lost or stolen debit card within 2 business days of learning of it, liability is limited to the lesser of $50 or the amount of unauthorized transfers.
+3.2 If the customer reports after 2 business days but within 60 days of the statement, liability is limited to $500.
+3.3 If the customer fails to report within 60 days of the statement, the customer may be liable for unauthorized transfers that occur after the 60-day period and before notice is given.
+3.4 Under the Cobalt Ridge Zero Liability promise, customers who report promptly are not held liable for unauthorized card transactions, as long as the card was not shared and the customer did not participate in the transaction.
+Cobalt Ridge Financial (fictional institution for demonstration purposes)
+
+
+4. Investigation Timelines
+4.1 Disputes Operations must acknowledge each dispute within 1 business day.
+4.2 Investigations must be completed within 10 business days after notice of the error.
+4.3 If the investigation cannot be completed within 10 business days, provisional credit for the disputed amount must be issued within 10 business days, and the investigation may take up to 45 calendar days.
+4.4 For transfers initiated outside the United States, point-of-sale debit card transactions, and accounts open fewer than 30 days, the investigation may take up to 90 calendar days.
+4.5 The customer must be notified of the results within 3 business days after the investigation is completed. If provisional credit is reversed, the customer receives 5 business days of notice before the reversal.
+
+
+5. Chargebacks to Merchants
+5.1 Card disputes are submitted to the card network within 30 days of the customer's notice.
+5.2 Disputes Operations must keep supporting documents for 2 years after the case closes.
+
+
+6. Escalation
+Disputes over $10,000, disputes involving suspected employee fraud, and repeat disputes on the same account within 90 days must be escalated to the Disputes Operations manager.
