@@ -68,10 +68,11 @@ def _custom_recognizers() -> list[PatternRecognizer]:
             # Any standalone run of 8-17 digits. Amounts like "$10,000" do not
             # match because of the separator.
             Pattern("long_digit_run", r"\b\d{8,17}\b", 0.6),
-            # Prefixed or masked forms: "acct #4421-88", "account ending 4321".
+            # Prefixed forms such as "acct #4421-88"; the identifier must contain a
+            # digit so phrases like "account records" are not masked.
             Pattern(
                 "prefixed_account",
-                r"(?i)\b(?:acct|account)\s*(?:no\.?|number|#)?\s*[:#]?\s*[A-Z0-9][A-Z0-9-]{3,}\b",
+                r"(?i)\b(?:acct|account)\s*(?:no\.?|number|#)?\s*[:#]?\s*(?=[A-Z0-9-]*\d)[A-Z0-9][A-Z0-9-]{3,}\b",
                 0.7,
             ),
         ],

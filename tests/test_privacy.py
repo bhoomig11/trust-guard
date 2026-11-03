@@ -37,6 +37,8 @@ BENIGN_QUERIES = [
     "What is the CTR threshold for cash deposits over $10,000?",
     "If a customer wires $30,000 internationally, what fee applies?",
     "What is 2.7% of $1,250?",
+    "How long are account records kept after an account is closed?",
+    "Which account types have an ACH limit?",
 ]
 
 
