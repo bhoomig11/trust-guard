@@ -1,0 +1,45 @@
+{"question": "What is the daily ATM withdrawal limit for a consumer debit card?", "source": "transaction_limits_policy.pdf", "expect": "$1,000 per card"}
+{"question": "How much can a consumer spend per day at point of sale with a debit card?", "source": "transaction_limits_policy.pdf", "expect": "$5,000 per card"}
+{"question": "What are the ATM and purchase limits for Premier tier customers?", "source": "transaction_limits_policy.pdf", "expect": "daily ATM withdrawal limit of $2,500"}
+{"question": "How long can a temporary limit increase last?", "source": "transaction_limits_policy.pdf", "expect": "maximum of 7 calendar days"}
+{"question": "What happens after too many card-not-present transactions in a short time?", "source": "transaction_limits_policy.pdf", "expect": "within 10 minutes"}
+{"question": "What is the online domestic wire limit for consumer accounts?", "source": "transaction_limits_policy.pdf", "expect": "$25,000 per business day"}
+{"question": "When is dual authorization required for a wire transfer?", "source": "transaction_limits_policy.pdf", "expect": "dual authorization"}
+{"question": "What is the cutoff time for same-day wire processing?", "source": "transaction_limits_policy.pdf", "expect": "4:00 p.m. Eastern"}
+{"question": "What ACH limits apply to accounts opened less than 30 days ago?", "source": "transaction_limits_policy.pdf", "expect": "$2,500 per day"}
+{"question": "Who can approve a transaction limit exception above twice the default?", "source": "transaction_limits_policy.pdf", "expect": "Payments Risk Committee above that"}
+{"question": "What information must be collected under the Customer Identification Program?", "source": "aml_kyc_policy.pdf", "expect": "date of birth"}
+{"question": "Within how many days must a new customer's identity be verified?", "source": "aml_kyc_policy.pdf", "expect": "within 5 business days"}
+{"question": "What ownership threshold triggers beneficial owner identification for a business customer?", "source": "aml_kyc_policy.pdf", "expect": "25 percent"}
+{"question": "How often are high-risk customers re-reviewed?", "source": "aml_kyc_policy.pdf", "expect": "every 12 months"}
+{"question": "When does the bank have to file a Currency Transaction Report?", "source": "aml_kyc_policy.pdf", "expect": "more than $10,000"}
+{"question": "What is structuring and how should staff handle it?", "source": "aml_kyc_policy.pdf", "expect": "Structuring"}
+{"question": "What is the deadline to file a SAR after initial detection?", "source": "aml_kyc_policy.pdf", "expect": "30 calendar days"}
+{"question": "Can we tell a customer that a SAR was filed about them?", "source": "aml_kyc_policy.pdf", "expect": "tipping off"}
+{"question": "How quickly must potential OFAC matches be dispositioned?", "source": "aml_kyc_policy.pdf", "expect": "within 24 hours"}
+{"question": "How long are CTR and SAR records retained?", "source": "aml_kyc_policy.pdf", "expect": "retained for 5 years"}
+{"question": "When is the monthly checking maintenance fee waived?", "source": "fee_schedule.pdf", "expect": "$1,500 or more"}
+{"question": "How much is the overdraft fee and how many can be charged per day?", "source": "fee_schedule.pdf", "expect": "$34 per item"}
+{"question": "Does Cobalt Ridge charge NSF fees?", "source": "fee_schedule.pdf", "expect": "does not charge NSF"}
+{"question": "What does an outgoing international wire cost?", "source": "fee_schedule.pdf", "expect": "Outgoing international wire: $45"}
+{"question": "What is the cash advance fee on the credit card?", "source": "fee_schedule.pdf", "expect": "5 percent"}
+{"question": "What is the foreign transaction fee?", "source": "fee_schedule.pdf", "expect": "2.7 percent"}
+{"question": "How much in fees can staff reverse without manager approval?", "source": "fee_schedule.pdf", "expect": "up to $100"}
+{"question": "What is the late payment fee on the credit card?", "source": "fee_schedule.pdf", "expect": "up to $30 for the first late payment"}
+{"question": "How long does a customer have to report an electronic transfer error?", "source": "dispute_resolution_procedure.txt", "expect": "within 60 calendar days"}
+{"question": "What is the customer's liability if a stolen debit card is reported within two business days?", "source": "dispute_resolution_procedure.txt", "expect": "$50"}
+{"question": "When must provisional credit be issued during a dispute investigation?", "source": "dispute_resolution_procedure.txt", "expect": "provisional credit"}
+{"question": "How long can an investigation take for a foreign-initiated transfer?", "source": "dispute_resolution_procedure.txt", "expect": "90 calendar days"}
+{"question": "Which disputes need to be escalated to the Disputes Operations manager?", "source": "dispute_resolution_procedure.txt", "expect": "over $10,000"}
+{"question": "How must Social Security numbers be encrypted at rest?", "source": "customer_data_privacy_policy.txt", "expect": "AES-256"}
+{"question": "Can employees paste customer data into public generative AI tools?", "source": "customer_data_privacy_policy.txt", "expect": "public generative AI"}
+{"question": "How many digits of a card number can be shown in customer letters?", "source": "customer_data_privacy_policy.txt", "expect": "last 4 digits"}
+{"question": "How long are account records kept after an account is closed?", "source": "customer_data_privacy_policy.txt", "expect": "7 years"}
+{"question": "How soon must employees report a suspected data incident?", "source": "customer_data_privacy_policy.txt", "expect": "within 1 hour"}
+{"question": "How often is access to restricted data recertified?", "source": "customer_data_privacy_policy.txt", "expect": "every quarter"}
+{"question": "How often must Tier 1 models be revalidated?", "source": "ai_model_governance_policy.pdf", "expect": "every 12 months"}
+{"question": "Can a generative AI assistant make final credit decisions?", "source": "ai_model_governance_policy.pdf", "expect": "final credit decisions"}
+{"question": "What must be logged for each generative AI interaction?", "source": "ai_model_governance_policy.pdf", "expect": "masked query"}
+{"question": "What hallucination rate triggers an incident review?", "source": "ai_model_governance_policy.pdf", "expect": "2 percent"}
+{"question": "Why does my bank ask for ID when I deposit a lot of cash?", "source": "fincen_ctr_reference_guide.pdf", "expect": "$10,000"}
+{"question": "What should a SAR narrative describe according to FinCEN?", "source": "fincen_sar_narrative_guidance.pdf", "expect": "narrative"}
