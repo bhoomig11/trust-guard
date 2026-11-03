@@ -96,6 +96,7 @@ def test_request_shape(store, shield, audit) -> None:
     call = client.calls[0]
     assert call["model"] == "claude-haiku-5-5"
     assert call["output_config"] == {"effort": "low"}
+    assert call["thinking"] == {"type": "adaptive"}
     assert call["system"][0]["cache_control"] == {"type": "ephemeral"}
     assert "tool_choice" not in call
     assert "betas" not in call

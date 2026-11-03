@@ -122,6 +122,7 @@ class ComplianceAgent:
         logger: GovernanceLogger,
         model: str = "claude-haiku-5-5",
         effort: str = "low",
+        thinking: str = "adaptive",
         max_tokens: int = 4096,
         max_steps: int = 4,
     ) -> None:
@@ -134,6 +135,8 @@ class ComplianceAgent:
             logger: Audit log sink.
             model: Claude model id.
             effort: ``output_config.effort`` level.
+            thinking: ``"adaptive"`` or ``"disabled"`` (disabled lowers latency; it is
+                only accepted at effort ``high`` or below on Claude Haiku 5.5).
             max_tokens: Per-response output cap.
             max_steps: Maximum model calls that may request tools before a final answer is forced.
         """
@@ -145,6 +148,7 @@ class ComplianceAgent:
         self.effort = effort
         self.max_tokens = max_tokens
         self.max_steps = max_steps
+        self.thinking = thinking
         self._system = [
             {"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}
         ]
@@ -158,6 +162,7 @@ class ComplianceAgent:
             "tools": TOOL_DEFINITIONS,
             "messages": messages,
             "output_config": {"effort": self.effort},
+            "thinking": {"type": self.thinking},
         }
         if not allow_tools:
             params["tool_choice"] = {"type": "none"}

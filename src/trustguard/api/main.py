@@ -63,6 +63,7 @@ def build_services(settings: Settings) -> Services:
             logger=audit,
             model=settings.llm_model,
             effort=settings.llm_effort,
+            thinking=settings.llm_thinking,
             max_tokens=settings.llm_max_tokens,
             max_steps=settings.agent_max_steps,
         )
@@ -93,6 +94,9 @@ def create_app(services: Services | None = None) -> FastAPI:
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         svc = services or build_services(get_settings())
         app.state.services = svc
+        # Load the embedding and NER models now so the first request is not slow.
+        await run_in_threadpool(svc.store.embedder.embed, ["warmup"])
+        await run_in_threadpool(svc.shield.mask, "warmup")
         data_dir = svc.settings.data_dir
         if svc.settings.auto_ingest and svc.store.count() == 0 and data_dir.is_dir():
             report = await run_in_threadpool(

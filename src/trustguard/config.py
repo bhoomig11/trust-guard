@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     anthropic_api_key: str | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
     llm_model: str = "claude-haiku-5-5"
     llm_effort: str = "low"
+    llm_thinking: str = "adaptive"
     llm_max_tokens: int = 4096
     agent_max_steps: int = 4
 
