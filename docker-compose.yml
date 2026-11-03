@@ -1,0 +1,20 @@
+services:
+  api:
+    build: .
+    image: trustguard:latest
+    container_name: trustguard-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      TRUSTGUARD_CHROMA_DIR: /app/chroma_data
+      TRUSTGUARD_LOG_PATH: /app/logs/governance.jsonl
+    volumes:
+      - chroma_data:/app/chroma_data
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
