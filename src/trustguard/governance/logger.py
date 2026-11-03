@@ -6,7 +6,7 @@ import json
 import threading
 import uuid
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -28,7 +28,7 @@ class AuditRecord:
     usage: dict[str, int] = field(default_factory=dict)
     error: str | None = None
     request_id: str = field(default_factory=lambda: uuid.uuid4().hex)
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     @property
     def similarity_scores(self) -> list[float]:

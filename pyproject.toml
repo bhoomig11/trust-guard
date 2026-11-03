@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Secure enterprise retrieval and compliance agent with PII masking and audit logging."
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "anthropic>=2.4,<3",
     "chromadb>=1.5,<2",
@@ -48,7 +48,7 @@ source = ["trustguard"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
